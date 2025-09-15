@@ -12,6 +12,7 @@ function App() {
       </div>
       <Routes>
         <Route path="/list" element ={<ArticleList/>}/>
+        <Route path="/list/:detailId" element={<ArticleList/>} />
         {/* <Route path="/write" element ={<ArticleWrite/>}/> */}
       </Routes>
     </>
