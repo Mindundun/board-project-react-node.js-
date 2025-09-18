@@ -1,24 +1,27 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { fetchArticle } from "../api/articleApi";
+import { useNavigate } from "react-router-dom";
+import { fetchArticles } from "../api/articleApi";
 
 function ArticleList() {
 
     const [articles, setArticles] = useState([]);
+    const [ error, setError ] = useState(null);
+    const [ loding, setLoding ] = useState(false);
 
-    const { detailId } = useParams(0) // { id : 1 }
+    const navigate = useNavigate();
 
+    console.log(articles);
     
-    console.log("detailId:", detailId);  // 이걸로 콘솔에 찍기!
 
+    // 라이프 사이클 과정에서 부수적인 작업 시 처리되는 useEffect()
     useEffect(() => {
-        fetchArticle()
+        fetchArticles()
         .then((data) => {
             console.log('data :', data);
             setArticles(data);
         })
-        .catch((error) => {
-            console.log('error :', Error);
+        .catch((err) => {
+            console.log('error :', err);
         })
 
     }, [])
@@ -26,43 +29,27 @@ function ArticleList() {
     return(
         <>
             <h1>ArticleList Component</h1>
-            <table>
+            <table border="1" cellPadding="8" cellSpacing="0" style={{ width: '100%', borderCollapse: 'collapse' }}>
                 <thead style={{backgroundColor: "lightpink", color: "black"}}>
-                    <th>번호</th>
-                    <th>제목</th>
-                    <th>글쓴이</th>
-                    <th>일자</th>
-                    <th>id</th>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일자</th>
+                    </tr>
                 </thead>
                 <tbody>
-                    {(!detailId || detailId === '0')   
-                    ?
+                    {
                     articles
-                    .map((article, index) => {
-                        return(
+                    .map((article, index, array) => ( // 중괄호가 아닌 괄호 사용 시 묵시적 리턴
                         <tr key={article.id} style={{backgroundColor: "lightblue", color: "black"}}>
-                            <td>No. {index + 1}</td>
-                            <td>{article.title}</td>
+                            <td>{array.length-index}</td>                          
+                            <td style ={{cursor:'pointer', color:'gray', textDecoration:'underline'}} onClick={() => navigate(`/view/${article.id}`)}>{article.title}</td>
                             <td>{article.writer}</td>
-                            <td>{article.reg_date}</td>     
-                            <td>{article.id}</td>                            
-                        </tr>
-                        )
-                    })
-                    :
-                    articles
-                    .filter(article => article.id === Number(detailId))
-                    .map((article, index) => {
-                        return(
-                        <tr key={article.id} style={{backgroundColor: "lightblue", color: "black"}}>
-                            <td>No. {index + 1}</td>
-                            <td>{article.title}</td>
-                            <td>{article.writer}</td>
-                            <td>{article.reg_date}</td>    
-                            <td>{article.id}</td>                                 
-                        </tr>
-                        )
-                    })}
+                            <td>{article.reg_date}</td>
+                        </tr>                        
+                    ))
+                    }
                 </tbody>
             </table>
         

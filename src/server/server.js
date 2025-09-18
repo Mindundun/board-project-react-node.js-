@@ -39,7 +39,7 @@ db.connect((err) => {
 });
 
 // 라우팅 설정
-app.get('/', (req, res) => { // 핸들러 함수
+app.get('/', (req, res) => { // 핸들러 메소드, get은 http method
     console.log('call get /');
     
     res.send('<h1>Welcome!</h1>');
@@ -55,11 +55,47 @@ app.get('/api/articles', (req, res) => {
     
     db.query(sql, (err, data) => {
         if(!err) { // null
-            console.log('data : ', data);
-            res.json(data); // res.status(200).json(data);
+            res.json(data); // res.status(200).json(data); -> Array 객체
         } else {
             console.log('error :', error);
             res.status(100).json({error : 'DB query error'});
         }
     })
+});
+
+// 게시글 상세 조회 요청
+app.get('/api/articles/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = `SELECT id, title, writer, contents, DATE_FORMAT(reg_date, "%Y-%m-%d %H:%i") AS reg_date 
+                   FROM article 
+                  WHERE id = ? `
+
+    db.query(sql, [id], (err, data) => {
+        if(!err) { // null
+            console.log('data : ', data);
+            res.json(data); // res.status(200).json(data); -> Array 객체
+        } else {
+            console.log('error :', err);
+            res.status(500).json({err : 'DB query error'});
+        }
+    })
+});
+
+// 게시글 삭제 요청
+app.delete('/api/articles/:id', (req, res) => {
+    const id = req.params.id;
+
+    const sql = `DELETE FROM article WHERE id = ?`
+
+    db.query(sql, [id], (err, data) => {
+        if(!err) { // null
+            console.log('data : ', data);
+            res.json({msg : "게시글이 삭제되었습니다."}); 
+        } else {
+            console.log('error :', err);
+            res.status(500).json({err : 'DB query error'});
+        }
+    })
+
 });
