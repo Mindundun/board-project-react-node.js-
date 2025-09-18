@@ -12,7 +12,7 @@ function ArticleView(){
 
     const [ article, setArticle ] = useState(null);
     const [ error, setError ] = useState(null);
-    const [ loding, setLoading ] = useState(false);
+    const [ loading, setLoading ] = useState(false); 
 
     
     useEffect(() => {
@@ -32,8 +32,8 @@ function ArticleView(){
         })
     }, [id]); // 의존성 배열
     
-    if (loding) {
-        return (<h2>Loding..</h2>);
+    if (loading) {
+        return (<h2>Loading..</h2>);
     }
 
     if (error) {
@@ -47,8 +47,6 @@ function ArticleView(){
 
     const handleRemove = () => {
 
-        console.log("idididi",id);
-        
         setLoading(true);
         
         deleteArticle(id)
@@ -67,9 +65,16 @@ function ArticleView(){
         })
     }
 
+    const handleModify = () => {
+
+        
+        navigate(`/modify/${id}`)
+
+    }
+
     return(
         <>
-            <h1>ArticleView</h1>
+            <h1>게시글 상세 조회</h1>
             <div>
                 <h2>제목 : {article.title}</h2>
                 <h2>작성자 : {article.writer}</h2>     
@@ -77,7 +82,7 @@ function ArticleView(){
                 <h2>내용 : {article.contents}</h2>    
             </div>
             <div>
-                <button>수정</button>
+                <button onClick={handleModify}>수정</button>
                 <button onClick={handleRemove}>삭제</button>
                 <button onClick={() => navigate('/list')}>목록조회</button>
             </div>

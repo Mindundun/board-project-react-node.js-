@@ -97,5 +97,49 @@ app.delete('/api/articles/:id', (req, res) => {
             res.status(500).json({err : 'DB query error'});
         }
     })
+});
 
+// 게시글 등록 요청
+app.post('/api/articles', (req, res) => {
+    // 위의 app.use(express.json()); 로직이 존재하기에 req.body.title로 처리 가능
+    const title = req.body.title;
+    const contents = req.body.contents;
+    const writer = req.body.writer;
+
+    const sql = `INSERT INTO article(title, contents, writer) values (?, ?, ? )`
+
+    db.query(sql, [title, contents, writer], (err, data) => {
+        if(!err) { // null
+            console.log('data : ', data);
+            res.status(201).json({msg : "게시글이 등록되었습니다."}); // status(201) : CREATE
+        } else {
+            console.log('error :', err);
+            res.status(500).json({err : 'DB query error'});
+        }
+    })
+});
+
+// 게시글 수정 요청
+app.put('/api/articles/:id', (req, res) => {
+    const id = req.params.id;
+
+    const title = req.body.title;
+    const writer = req.body.writer;
+    const contents = req.body.contents;
+
+    const sql = `UPDATE article
+                    SET title = ?,
+                        writer = ?,
+                        contents = ?
+                  WHERE id = ? `
+
+    db.query(sql, [title, writer, contents, id], (err, data) => {
+        if(!err) { // null
+            console.log('data : ', data);
+            res.json({msg : "게시글이 수정되었습니다."});
+        } else {
+            console.log('error :', err);
+            res.status(500).json({err : 'DB query error'});
+        }
+    })
 });

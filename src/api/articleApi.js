@@ -24,3 +24,17 @@ export const deleteArticle = async(id) => {
     console.log("deleteArticle res data : ", res.data);
     return res.data; 
 };
+
+// 게시글 등록 요청 : postArticle
+export const postArticle = async(article) => {
+    const res = await axios.post(`${prefix}/articles`, article);
+    console.log("postArticle res data : ", res.data);
+    return res.data; 
+};
+
+// 게시글 수정 요청 : putArticle
+export const putArticle = async(article) => {
+    const res = await axios.put(`${prefix}/articles/${article.id}`, article);
+    console.log("putArticle res data : ", res.data);
+    return res.data;
+};

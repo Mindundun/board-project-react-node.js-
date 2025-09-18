@@ -1,6 +1,8 @@
 import { Routes, Route, Link } from 'react-router-dom'
 import ArticleList from './components/ArticleList'
 import ArticleView from './components/ArticleView'
+import ArticleWrite from './components/ArticleWrite'
+import ArticleModify from './components/ArticleModify'
 import './App.css'
 
 function App() {
@@ -18,7 +20,8 @@ function App() {
       <Routes>
         <Route path="/list" element ={<ArticleList/>}/>
         <Route path="/view/:id" element={<ArticleView/>} />
-        {/* <Route path="/write" element ={<ArticleWrite/>}/> */}
+        <Route path="/write" element ={<ArticleWrite/>}/>
+        <Route path="/modify/:id" element ={<ArticleModify/>}/>
       </Routes>
     </>
   )
