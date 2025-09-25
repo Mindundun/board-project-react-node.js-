@@ -12,7 +12,7 @@ app.use(cors());
 
 app.use(express.json());
 
-const PORT = 5000;
+const PORT = 9000;
 
 // 웹 서버 실행
 app.listen (PORT, () => {
@@ -46,7 +46,7 @@ app.get('/', (req, res) => { // 핸들러 메소드, get은 http method
 });
 
 // 게시글 목록 조회
-app.get('/api/articles', (req, res) => {
+app.get('/api/v1/articles', (req, res) => {
     console.log('call get /api/articles');
    
     const sql = `SELECT id, title, writer, DATE_FORMAT(reg_date, "%Y-%m-%d %H:%i") AS reg_date 
@@ -64,7 +64,7 @@ app.get('/api/articles', (req, res) => {
 });
 
 // 게시글 상세 조회 요청
-app.get('/api/articles/:id', (req, res) => {
+app.get('/api/v1/articles/:id', (req, res) => {
     const id = req.params.id;
 
     const sql = `SELECT id, title, writer, contents, DATE_FORMAT(reg_date, "%Y-%m-%d %H:%i") AS reg_date 
@@ -83,7 +83,7 @@ app.get('/api/articles/:id', (req, res) => {
 });
 
 // 게시글 삭제 요청
-app.delete('/api/articles/:id', (req, res) => {
+app.delete('/api/v1/articles/:id', (req, res) => {
     const id = req.params.id;
 
     const sql = `DELETE FROM article WHERE id = ?`
@@ -100,7 +100,7 @@ app.delete('/api/articles/:id', (req, res) => {
 });
 
 // 게시글 등록 요청
-app.post('/api/articles', (req, res) => {
+app.post('/api/v1/articles', (req, res) => {
     // 위의 app.use(express.json()); 로직이 존재하기에 req.body.title로 처리 가능
     const title = req.body.title;
     const contents = req.body.contents;
@@ -120,7 +120,7 @@ app.post('/api/articles', (req, res) => {
 });
 
 // 게시글 수정 요청
-app.put('/api/articles/:id', (req, res) => {
+app.put('/api/v1/articles/:id', (req, res) => {
     const id = req.params.id;
 
     const title = req.body.title;

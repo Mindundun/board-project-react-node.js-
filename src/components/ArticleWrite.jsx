@@ -48,7 +48,7 @@ function ArticleWrite() {
                     .then((data) => {
                         // 등록 후 목록으로 이동
                         console.log("postArticle data : ", data);
-                        navigate('/list', {replace : true});
+                        // navigate('/list', {replace : true});
                     })
                     .catch((err) => {
                         // 에러 메세지 출력

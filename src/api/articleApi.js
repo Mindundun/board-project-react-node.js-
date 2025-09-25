@@ -1,14 +1,30 @@
 import axios from "axios";
 
-const API_SERVER_HOST = 'http://localhost:5000';
-const prefix = `${API_SERVER_HOST}/api`;
+const API_SERVER_HOST = 'http://localhost:9000';
+const prefix = `${API_SERVER_HOST}/api/v1`;
 
 // 게시글 목록 조회 요청 ( 비동기 )
-export const fetchArticles = async() => {    // async는 Promise 객체 반환
-    const res = await axios.get(`${prefix}/articles`);
-    console.log("fetchArticles res data : ", res.data);   // axios가 Array 객체로 만듬
+// export const fetchArticles = async() => {    // async는 Promise 객체 반환
+//     const res = await axios.get(`${prefix}/articles`);
     
-    return res.data;
+//     console.log("fetchArticles res data : ", res.data);   // axios가 Array 객체로 만듬
+    
+//     return res.data;
+// };
+export const fetchArticles = async (keyfield = "", keyword = "") => {
+  const params = new URLSearchParams();
+  if (keyfield && keyword) {
+    params.append("keyfield", keyfield);
+    params.append("keyword", keyword);
+  }
+
+  const url = `${prefix}/articles?${params.toString()}`;
+
+  const res = await axios.get(url);
+  
+  console.log("fetchArticles res data : ", res.data);
+
+  return res.data;
 };
 
 // 게시글 목록 상세 조회 요청

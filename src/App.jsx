@@ -10,10 +10,10 @@ function App() {
   return (
     <>
       <div style={{ marginBottom: '20px', display: 'flex', gap: '10px', justifyContent: 'center' }}>
-        <Link to="/write" style={{ textDecoration: 'none', color: '#fff', background: '#6e9fd3ff', padding: '8px 16px', borderRadius: '4px' }}>
+        <Link to="/write" style={{ textDecoration: 'none', color: '#fff', fontWeight: "900" , background: '#2d580fc7', padding: '8px 16px', borderRadius: '4px', border: "1px solid white" }}>
           게시글 등록
         </Link>
-        <Link to="/list" style={{ textDecoration: 'none', color: '#fff', background: '#6e9fd3ff', padding: '8px 16px', borderRadius: '4px' }}>
+        <Link to="/list" style={{ textDecoration: 'none', color: '#fff', fontWeight: "900", background: '#2d580fc7', padding: '8px 16px', borderRadius: '4px', border: "1px solid white" }}>
           게시글 목록조회
         </Link>
       </div>
