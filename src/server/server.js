@@ -66,11 +66,29 @@ app.get('/api/v1/articles', (req, res) => {
 // 게시글 상세 조회 요청
 app.get('/api/v1/articles/:id', (req, res) => {
     const id = req.params.id;
+    console.log("sql : ",sql);
+    const sql = `SELECT A.id           AS id      ,
+                        A.title        AS title   ,
+                        A.contents     AS contents,
+                        A.writer       AS writer  ,
+                        A.reg_date     AS regDate ,
 
-    const sql = `SELECT id, title, writer, contents, DATE_FORMAT(reg_date, "%Y-%m-%d %H:%i") AS reg_date 
-                   FROM article 
+                        F.id           AS fileId  ,
+                        F.file_name    AS fileName,
+                        F.file_path    AS filePath,
+                        F.file_size    AS fileSize,
+                        F.article_id   AS articleId,
+
+                        U.id           AS userId ,
+                        U.email        AS email  ,
+                        U.phone        AS phone  
+                    FROM article AS A 
+                        LEFT OUTER JOIN article_file AS F ON F.article_id = A.id
+                                JOIN user         AS U ON U.id         = A.user_id
                   WHERE id = ? `
 
+                  
+                  
     db.query(sql, [id], (err, data) => {
         if(!err) { // null
             console.log('data : ', data);

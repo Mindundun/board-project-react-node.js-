@@ -137,11 +137,11 @@ function ArticleList() {
                     >
                         {article.title}
                     </td>
-                    <td style={{ padding: "12px 16px", color: "#555", fontStyle: "italic" }}>
+                    <td style={{ padding: "12px 16px", color: "#666", fontStyle: "italic" }}>
                         {article.writer}
                     </td>
-                    <td style={{ padding: "12px 16px", color: "#777", fontSize: "0.9rem", whiteSpace: "nowrap", textAlign: "center" }}>
-                        {article.reg_date}
+                    <td style={{ padding: "12px 16px", color: "#666", fontSize: "0.9rem", textAlign: "center" }}>
+                        {article.regDate}
                     </td>
                     </tr>
                 ))}
@@ -230,6 +230,7 @@ function ArticleList() {
                     cursor: "pointer",
                     boxShadow: "0 4px 6px rgba(2, 136, 209, 0.3)",
                     transition: "background-color 0.3s ease",
+                    border: "1px solid white",
                 }}
                 onMouseEnter={(e) => (e.currentTarget.style.backgroundColor = "#0277bd")}
                 onMouseLeave={(e) => (e.currentTarget.style.backgroundColor = "#2d580fc7")}

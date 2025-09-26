@@ -75,17 +75,80 @@ function ArticleView(){
     return(
         <>
             <h1>게시글 상세 조회</h1>
-            <div>
-                <h2>제목 : {article.title}</h2>
-                <h2>작성자 : {article.writer}</h2>     
-                <h2>작성일자 : {article.reg_date}</h2>   
-                <h2>내용 : {article.contents}</h2>    
-            </div>
-            <div>
-                <button onClick={handleModify}>수정</button>
-                <button onClick={handleRemove}>삭제</button>
-                <button onClick={() => navigate('/list')}>목록조회</button>
-            </div>
+            <div
+                style={{
+                    border: "1px solid #ddd",
+                    borderRadius: "8px",
+                    padding: "24px",
+                    marginTop: "20px",
+                    marginBottom: "20px",
+                    boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
+                    backgroundColor: "#fff",
+                }}
+                >
+                <h2 style={{ marginBottom: "16px", color: "#2e7d32" }}>
+                    제목 : <span style={{ color: "#333", fontWeight: "600" }}>{article.title}</span>
+                </h2>
+                <p style={{ marginBottom: "8px", color: "#555" }}>
+                    <strong>작성자 :</strong> {article.writer}
+                </p>
+                <p style={{ marginBottom: "8px", color: "#555" }}>
+                    <strong>작성일자 :</strong> {article.regDate}
+                </p>
+                <p style={{ marginTop: "16px", lineHeight: "1.6", color: "#444" }}>
+                    <strong>내용 :</strong><br />
+                    {article.contents}
+                </p>
+                </div>
+
+                <div style={{ display: "flex", gap: "12px", marginBottom: "40px", justifyContent: "center" }}>
+                <button
+                    onClick={handleModify}
+                    style={{
+                    padding: "10px 20px",
+                    backgroundColor: "#2e7d32",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontWeight: "600",
+                    border: "1px solid white",
+                    }}
+                >
+                    수정
+                </button>
+                <button
+                    onClick={handleRemove}
+                    style={{
+                    padding: "10px 20px",
+                    backgroundColor: "#c62828",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontWeight: "600",
+                    border: "1px solid white",
+                    }}
+                >
+                    삭제
+                </button>
+                <button
+                    onClick={() => navigate('/list')}
+                    style={{
+                    padding: "10px 20px",
+                    backgroundColor: "#555",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "4px",
+                    cursor: "pointer",
+                    fontWeight: "600",
+                    border: "1px solid white",
+                    }}
+                >
+                    목록조회
+                </button>
+                </div>
+
         </>
     );
 }

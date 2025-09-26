@@ -30,8 +30,10 @@ export const fetchArticles = async (keyfield = "", keyword = "") => {
 // 게시글 목록 상세 조회 요청
 export const fetchArticle = async(id) => {
     const res = await axios.get(`${prefix}/articles/${id}`);
-    console.log("fetchArticle res data : ", res.data[0]); 
-    return res.data[0];
+    console.log(`${prefix}/articles/${id}`);
+    
+    console.log("fetchArticle res data : ", res.data); 
+    return res.data;
 };
 
 // 게시글 삭제 요청 : deleteArticle
