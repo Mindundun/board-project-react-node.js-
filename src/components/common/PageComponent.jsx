@@ -1,13 +1,13 @@
 import { useNavigate } from "react-router-dom";
 
-const PageComponent = ( { serverData } ) => {
+const PageComponent = ( { serverData, movePage } ) => {
 
     const navigate = useNavigate();
 
     return (
         <>
             {
-                serverData.prev ? <span onClick={() => {navigate(`/list?page=${serverData.prevPage}&size=${serverData.size}`)}}>이전</span> : <></>
+                serverData.prev ? <span onClick={() => {movePage({page:serverData.prevPage,size:serverData.size})}}>이전</span> : <></>
             }
 
             {
@@ -18,7 +18,7 @@ const PageComponent = ( { serverData } ) => {
                                 cursor: 'pointer',
                                 margin: '0.5px'
                             }}
-                            onClick={() => {navigate(`/list?page=${pageNum}&size=${serverData.size}`)}}
+                            onClick={() => {movePage({page:pageNum,size:serverData.size})}}
                             >
 
                         {pageNum}
@@ -27,7 +27,7 @@ const PageComponent = ( { serverData } ) => {
             }
 
             {
-                serverData.next ? <span onClick={() => {navigate(`/list?page=${serverData.nextPage}&size=${serverData.size}`)}}>다음</span> : <></>
+                serverData.next ? <span onClick={() => {movePage({page:serverData.nextPage,size:serverData.size})}}>다음</span> : <></>
             }
         </>
     )

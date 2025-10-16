@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom"; 
 import { fetchArticles } from "../api/articleApi"; 
 import PageComponent from "./common/PageComponent";
+import { useCustomMove } from "../hooks/useCustomMove";
 
 const initialState = {
     dtoList : [],
@@ -28,11 +29,15 @@ function ArticleList() {
     const [keyfield, setKeyfield] = useState(""); // 검색 조건
     const [keyword, setKeyword] = useState("");   // 검색어
 
-    const [searchParams, setSearchParams] = useSearchParams();
-    const page = parseInt(searchParams.get('page')) || 1;
-    const size = parseInt(searchParams.get('size')) || 10;
+    // const [searchParams, setSearchParams] = useSearchParams();
+    // const page = parseInt(searchParams.get('page')) || 1;
+    // const size = parseInt(searchParams.get('size')) || 10;
 
-    const navigate = useNavigate(); 
+    // const navigate = useNavigate(); 
+
+    const {moveToList, moveToView, page, size} = useCustomMove();
+
+
 
     const loadArticles = () => {
     setLoading(true);
@@ -155,7 +160,7 @@ function ArticleList() {
                         cursor: "pointer",
                         userSelect: "none",
                         }}
-                        onClick={() => { navigate(`/view/${article.id}?page=${page}&size=${size}`)}}
+                        onClick={() => { moveToView(article.id)}}
                     >
                         {article.title}
                     </td>
@@ -261,7 +266,7 @@ function ArticleList() {
                 </button>
             </form>
             </div>
-            <PageComponent serverData={serverData}></PageComponent>
+            <PageComponent serverData={serverData} movePage={moveToList}></PageComponent>
 
             {/* <form onSubmit={handleSearch} style={{ marginBottom: "20px" }}>
                 <select

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { deleteArticle, fetchArticle } from "../api/articleApi";
+import { useCustomMove } from "../hooks/useCustomMove";
 
 function ArticleView(){
     
@@ -11,12 +12,14 @@ function ArticleView(){
     const { id } = useParams();
     const [ searchParam, setSearchParam ] = useSearchParams();
 
-    const page = searchParam.get('page')
-    const size = searchParam.get('size')
+    // const page = searchParam.get('page')
+    // const size = searchParam.get('size')
 
     const [ article, setArticle ] = useState(null);
     const [ error, setError ] = useState(null);
     const [ loading, setLoading ] = useState(false); 
+
+    const {moveToModify, moveToList, page, size} = useCustomMove();
 
     
     useEffect(() => {
@@ -57,7 +60,8 @@ function ArticleView(){
         .then((data) => {
             // list 페이지로 이동
             console.log("deleteArticle data : ", data);// {msg : "게시글이 삭제되었습니다."}  server.js
-            navigate(`/list?page=${page}&size=${size}`);
+            moveToList();
+            // navigate(`/list?page=${page}&size=${size}`);
         })
         .catch((err) => {
             // 에러 메세지 출력
@@ -72,8 +76,8 @@ function ArticleView(){
     const handleModify = () => {
 
         
-        navigate(`/modify/${id}?page=${page}&size=${size}`)
-
+        //navigate(`/modify/${id}?page=${page}&size=${size}`)
+        moveToModify(id);
     }
 
     return(
@@ -137,7 +141,7 @@ function ArticleView(){
                     삭제
                 </button>
                 <button
-                    onClick={() => navigate(`/list?page=${page}&size=${size}`)}
+                    onClick={() => moveToList() }
                     style={{
                     padding: "10px 20px",
                     backgroundColor: "#555",
