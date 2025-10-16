@@ -79,6 +79,7 @@ function ArticleList() {
             .finally(() => {
                 setLoading(false);
             });
+
     }, [page]); 
 
     
@@ -154,7 +155,7 @@ function ArticleList() {
                         cursor: "pointer",
                         userSelect: "none",
                         }}
-                        onClick={() => {}}
+                        onClick={() => { navigate(`/view/${article.id}?page=${page}&size=${size}`)}}
                     >
                         {article.title}
                     </td>

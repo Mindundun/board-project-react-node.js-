@@ -12,7 +12,7 @@ const PageComponent = ( { serverData } ) => {
 
             {
                 serverData.pageNumList.map( (pageNum) => {
-                    return <span
+                    return <span key={pageNum}
                             style={{
                                 color: pageNum == serverData.currentPage ? '#2e7d32' : 'white',
                                 cursor: 'pointer',
