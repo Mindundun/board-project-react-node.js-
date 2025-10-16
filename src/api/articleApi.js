@@ -11,7 +11,7 @@ const prefix = `${API_SERVER_HOST}/api/v1`;
     
 //     return res.data;
 // };
-export const fetchArticles = async (keyfield = "", keyword = "") => {
+export const fetchArticles = async ({page, size}, keyfield = "", keyword = "") => {
   const params = new URLSearchParams();
   if (keyfield && keyword) {
     params.append("keyfield", keyfield);
@@ -20,7 +20,9 @@ export const fetchArticles = async (keyfield = "", keyword = "") => {
 
   const url = `${prefix}/articles?${params.toString()}`;
 
-  const res = await axios.get(url);
+  const res = await axios.get(url, {
+    params: { page, size },
+  });
   
   console.log("fetchArticles res data : ", res.data);
 

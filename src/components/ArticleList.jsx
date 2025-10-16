@@ -1,16 +1,37 @@
 import { useEffect, useState } from "react"; 
-import { useNavigate } from "react-router-dom"; 
+import { useNavigate, useSearchParams } from "react-router-dom"; 
 import { fetchArticles } from "../api/articleApi"; 
+import PageComponent from "./common/PageComponent";
+
+const initialState = {
+    dtoList : [],
+    pageRequestDto: null,
+    totalCount: 0,
+    prev: false,
+    next: false,
+    // start: 0,
+    // end: 0,
+    prevPage: 0,
+    nextPage: 0,
+    totalPage: 0,
+    currentPage: 0,
+    // size: 0,
+    // pageSize: 0,
+    pageNumList:[]
+}
 
 function ArticleList() { 
-    const [articles, setArticles] = useState([]); 
+    const [serverData, setServerData] = useState({...initialState}); 
     const [error, setError] = useState(null); 
     const [loading, setLoading] = useState(false); 
 
     const [keyfield, setKeyfield] = useState(""); // 검색 조건
     const [keyword, setKeyword] = useState("");   // 검색어
 
-    
+    const [searchParams, setSearchParams] = useSearchParams();
+    const page = parseInt(searchParams.get('page')) || 1;
+    const size = parseInt(searchParams.get('size')) || 10;
+
     const navigate = useNavigate(); 
 
     const loadArticles = () => {
@@ -45,10 +66,10 @@ function ArticleList() {
     useEffect(() => { 
         setLoading(true);
 
-        fetchArticles() 
+        fetchArticles({page, size}) 
             .then((data) => {
                 console.log('data :', data);
-                setArticles(data);
+                setServerData(data);
                 setError(null);
             }) 
             .catch((err) => {
@@ -58,7 +79,7 @@ function ArticleList() {
             .finally(() => {
                 setLoading(false);
             });
-    }, []); 
+    }, [page]); 
 
     
 
@@ -105,7 +126,7 @@ function ArticleList() {
                 </tr>
                 </thead>
                 <tbody>
-                {articles.map((article, index, array) => (
+                {serverData.dtoList.map((article, index) => (
                     <tr
                     key={article.id}
                     style={{
@@ -118,7 +139,7 @@ function ArticleList() {
                     onMouseLeave={e => e.currentTarget.style.backgroundColor = index % 2 === 0 ? "#fafafa" : "#ffffff"}
                     >
                     <td style={{ padding: "12px 16px", textAlign: "center", fontWeight: "600", color: "#666" }}>
-                        {array.length - index}
+                        {(serverData.totalCount - (page-1) * size) - index}
                     </td>
                     <td
                         style={{
@@ -133,7 +154,7 @@ function ArticleList() {
                         cursor: "pointer",
                         userSelect: "none",
                         }}
-                        onClick={() => navigate(`/view/${article.id}`)}
+                        onClick={() => {}}
                     >
                         {article.title}
                     </td>
@@ -239,6 +260,7 @@ function ArticleList() {
                 </button>
             </form>
             </div>
+            <PageComponent serverData={serverData}></PageComponent>
 
             {/* <form onSubmit={handleSearch} style={{ marginBottom: "20px" }}>
                 <select
