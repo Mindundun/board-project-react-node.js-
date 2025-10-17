@@ -11,50 +11,66 @@ const prefix = `${API_SERVER_HOST}/api/v1`;
     
 //     return res.data;
 // };
-export const fetchArticles = async ({page, size}, keyfield = "", keyword = "") => {
-  const params = new URLSearchParams();
-  if (keyfield && keyword) {
-    params.append("keyfield", keyfield);
-    params.append("keyword", keyword);
-  }
 
-  const url = `${prefix}/articles?${params.toString()}`;
+//1. 게시글 목록 조회 요청 (페이징)
 
-  const res = await axios.get(url, {
-    params: { page, size },
-  });
-  
-  console.log("fetchArticles res data : ", res.data);
+export const fetchArticles = async ({ page, size, keyfield, keyword }) => {
 
-  return res.data;
+    console.log('prefix : ', prefix);  // Array 객체
+
+    const res = await axios.get(`${prefix}/articles`, { params: { page, size, keyfield, keyword } });
+
+    console.log('res.data : ', res.data);  // Array 객체
+
+    return res.data; // Promise 객체를 변환    
+
 };
 
-// 게시글 목록 상세 조회 요청
-export const fetchArticle = async(id) => {
+
+
+//2. 게시글 상세 조회 요청 : fetchArticle
+export const fetchArticle = async (id) => {
+
     const res = await axios.get(`${prefix}/articles/${id}`);
-    console.log(`${prefix}/articles/${id}`);
-    
-    console.log("fetchArticle res data : ", res.data); 
-    return res.data;
-};
 
-// 게시글 삭제 요청 : deleteArticle
-export const deleteArticle = async(id) => {
+    console.log('res.data : ', res.data);  // Array 객체
+
+    return res.data; // Promise 객체를 변환   : { }  
+}
+
+
+
+//3. 게시글 삭제 요청 : deleteArticle
+
+export const deleteArticle = async (id) => {
+
     const res = await axios.delete(`${prefix}/articles/${id}`);
-    console.log("deleteArticle res data : ", res.data);
-    return res.data; 
-};
 
-// 게시글 등록 요청 : postArticle
-export const postArticle = async(article) => {
-    const res = await axios.post(`${prefix}/articles`, article);
-    console.log("postArticle res data : ", res.data);
-    return res.data; 
-};
+    console.log('res.data : ', res.data);
 
-// 게시글 수정 요청 : putArticle
-export const putArticle = async(article) => {
-    const res = await axios.put(`${prefix}/articles/${article.id}`, article);
-    console.log("putArticle res data : ", res.data);
     return res.data;
-};
+}
+
+
+//4. 게시글 등록 요청 : postArticle
+export const postArticle = async (article) => {
+
+    const res = await axios.post(`${prefix}/articles`, article);
+
+    console.log('res.data : ', res.data);
+
+    return res.data;
+
+}
+
+
+//5. 게시글 수정 요청 : putArticle
+export const putArticle = async (article) => {
+
+    const res = await axios.put(`${prefix}/articles/${article.id}`, article);
+
+    console.log('res.data : ', res.data);
+
+    return res.data;
+
+}
